@@ -16,11 +16,11 @@ if os.getenv("READTHEDOCS") == "True":
         requirements.extend(rqmnts.read().splitlines())
 
 setup(
-    name="Lavapy",
+    name="nextlava",
     version=version,
     description="A powerful and robust Python library built from the ground up for interacting with Lavalink.",
     long_description=readme,
-    author="Aspect1103",
+    author="Aspect1103 & rexwu1104",
     author_email="jack.ashwell1@gmail.com",
     license="MIT",
     url="https://github.com/Aspect1103/Lavapy",
