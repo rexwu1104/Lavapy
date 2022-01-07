@@ -43,7 +43,7 @@ class LavapyEvent:
     """
     Base Lavapy event. Every event inherits from this.
 
-    If you want to listen to these events, use a :meth:`discord.ext.commands.Bot.listen()`.
+    If you want to listen to these events, use a :meth:`nextcord.ext.commands.Bot.listen()`.
 
     Parameters
     ----------
@@ -68,7 +68,7 @@ class LavapyEvent:
 
     @property
     def payload(self) -> Dict[str, Any]:
-        """Returns a dict containing the payload sent to discord.py. This must be parsed to `**kwargs`."""
+        """Returns a dict containing the payload sent to nextcord. This must be parsed to `**kwargs`."""
         return self._payload
 
 

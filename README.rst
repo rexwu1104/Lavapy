@@ -43,7 +43,7 @@ A simple and easy example to connect to a voice channel and play a Youtube song 
 
 .. code:: py
 
-    from discord.ext import commands
+    from nextcord.ext import commands
     import lavapy
 
     bot = commands.Bot(command_prefix="!")

@@ -2,8 +2,8 @@
 from typing import Dict, Optional
 from datetime import datetime
 # Pip
-from discord import VoiceRegion, VoiceChannel, Embed, Colour
-from discord.ext import commands
+from nextcord import VoiceRegion, VoiceChannel, Embed, Colour
+from nextcord.ext import commands
 # Custom
 import lavapy
 from lavapy.ext import spotify

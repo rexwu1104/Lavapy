@@ -83,7 +83,7 @@ class Websocket:
 
     def getPlayer(self, guildID: int) -> Player:
         """
-        Returns a Lavapy :class:`Player` object based on a specific :class:`discord.Guild` ID.
+        Returns a Lavapy :class:`Player` object based on a specific :class:`nextcord.Guild` ID.
 
         Parameters
         ----------

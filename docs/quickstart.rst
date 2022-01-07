@@ -6,13 +6,13 @@ To use Lavapy, you need to have Lavalink 3.3 or higher (preferably 3.4 since you
 Basic Bot Example
 -----------------
 
-Lavapy is designed to work with discord.py 1.7.3 and up. Previous versions may work, however, problems will not be fixed due to those versions being deprecated.
+Lavapy is designed to work with nextcord 2.0.0a3 and up. Previous versions may work, however, problems will not be fixed due to those versions being deprecated.
 
 Here is an example for a starting bot which will play a Youtube track using a search query in a discord voice channel:
 
 .. code:: py
 
-    from discord.ext import commands
+    from nextcord.ext import commands
     import lavapy
 
     bot = commands.Bot(command_prefix="!")
@@ -65,7 +65,7 @@ Lavapy also supports querying for Spotify tracks, playlists, and albums. Here is
 
 .. code:: py
 
-    from discord.ext import commands
+    from nextcord.ext import commands
     import lavapy
     from lavapy.ext import spotify
 

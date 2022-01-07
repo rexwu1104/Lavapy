@@ -1,4 +1,4 @@
-discord.py>=1.7.3
+nextcord>=2.0.0a3
 aiohttp>=3.7.4
 websocket-client>=1.2.1
 setuptools>=59.3.0

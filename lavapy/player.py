@@ -27,7 +27,7 @@ import datetime
 import logging
 from typing import TYPE_CHECKING, Any, Dict, Optional, Type, Union
 
-import discord.ext
+import nextcord.ext
 
 from .exceptions import FilterAlreadyExists, FilterNotApplied, InvalidSeekPosition, RepeatException
 from .pool import NodePool
@@ -44,32 +44,32 @@ __all__ = ("Player",)
 logger = logging.getLogger(__name__)
 
 
-class Player(discord.VoiceProtocol):
+class Player(nextcord.VoiceProtocol):
     """
-    Lavapy Player object. This subclasses :class:`discord.VoiceProtocol` and such should be treated as one with additions.
+    Lavapy Player object. This subclasses :class:`nextcord.VoiceProtocol` and such should be treated as one with additions.
 
     Examples
     --------
     .. code-block:: python
 
        @commands.command()
-       async def connect(self, channel: discord.VoiceChannel):
+       async def connect(self, channel: nextcord.VoiceChannel):
            voice_client = await channel.connect(cls=lavapy.Player)
 
     .. warning::
-        This class should not be created manually but can be subclassed to add additional functionality. You should instead use :meth:`discord.VoiceChannel.connect()` and pass the player object to the cls kwarg.
+        This class should not be created manually but can be subclassed to add additional functionality. You should instead use :meth:`nextcord.VoiceChannel.connect()` and pass the player object to the cls kwarg.
 
     Parameters
     ----------
-    client: Union[:class:`discord.Client`, :class:`discord.AutoShardedClient`, :class:`discord.ext.commands.Bot`, :class:`discord.ext.commands.AutoShardedBot`]
+    client: Union[:class:`nextcord.Client`, :class:`nextcord.AutoShardedClient`, :class:`nextcord.ext.commands.Bot`, :class:`nextcord.ext.commands.AutoShardedBot`]
         A client or bot object.
-    channel: discord.VoiceChannel
+    channel: nextcord.VoiceChannel
         A voice channel for the player to connect to.
     """
-    def __init__(self, client: Union[discord.Client, discord.AutoShardedClient, discord.ext.commands.Bot, discord.ext.commands.AutoShardedBot], channel: discord.VoiceChannel) -> None:
+    def __init__(self, client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot], channel: nextcord.VoiceChannel) -> None:
         super().__init__(client, channel)
-        self.client: Union[discord.Client, discord.AutoShardedClient, discord.ext.commands.Bot, discord.ext.commands.AutoShardedBot] = client
-        self.channel: discord.VoiceChannel = channel
+        self.client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot] = client
+        self.channel: nextcord.VoiceChannel = channel
         self._node: Optional[Node] = NodePool.balanced()
         self._track: Optional[Track] = None
         self._volume: int = 100
@@ -86,7 +86,7 @@ class Player(discord.VoiceProtocol):
         return f"<Lavapy Player (ChannelID={self.channel.id}) (GuildID={self.guild.id})>"
 
     @property
-    def guild(self) -> discord.Guild:
+    def guild(self) -> nextcord.Guild:
         """Returns the guild this player is in."""
         return self.channel.guild
 
@@ -217,7 +217,7 @@ class Player(discord.VoiceProtocol):
         Parameters
         ----------
         data: Dict[str, str]
-            The raw info sent by Discord about the voice channel.
+            The raw info sent by discord about the voice channel.
         """
         self._voiceState.update({"event": data})
         await self._sendVoiceUpdate()
@@ -230,7 +230,7 @@ class Player(discord.VoiceProtocol):
         Parameters
         ----------
         data: Dict[str, Any]
-            The raw info sent by Discord about the client's voice state.
+            The raw info sent by discord about the client's voice state.
         """
         self._voiceState.update({"sessionId": data["session_id"]})
         channelID = data["channel_id"]
@@ -262,7 +262,7 @@ class Player(discord.VoiceProtocol):
     async def connect(self, *, timeout: float, reconnect: bool) -> None:
         """|coro|
 
-        Connects the player to a :class:`discord.VoiceChannel`.
+        Connects the player to a :class:`nextcord.VoiceChannel`.
 
         Parameters
         ----------
@@ -279,7 +279,7 @@ class Player(discord.VoiceProtocol):
     async def disconnect(self, *, force: bool = False) -> None:
         """|coro|
 
-        Disconnects the player from a :class:`discord.VoiceChannel`.
+        Disconnects the player from a :class:`nextcord.VoiceChannel`.
 
         Parameters
         ----------
@@ -442,14 +442,14 @@ class Player(discord.VoiceProtocol):
         await self.node._send(volume)
         logger.debug(f"Set volume to {volume} for guild {self.guild.id}")
 
-    async def moveTo(self, channel: discord.VoiceChannel) -> None:
+    async def moveTo(self, channel: nextcord.VoiceChannel) -> None:
         """|coro|
 
-        Moves the player to another :class:`discord.VoiceChannel`. If this is None, then the player will disconnect.
+        Moves the player to another :class:`nextcord.VoiceChannel`. If this is None, then the player will disconnect.
 
         Parameters
         ----------
-        channel: discord.VoiceChannel
+        channel: nextcord.VoiceChannel
             The voice channel to move to.
         """
         await self.guild.change_voice_state(channel=channel)

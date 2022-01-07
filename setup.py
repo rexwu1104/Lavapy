@@ -25,7 +25,7 @@ setup(
     license="MIT",
     url="https://github.com/Aspect1103/Lavapy",
     packages=["lavapy", "lavapy.ext.spotify"],
-    keywords=["lavapy", "lavalink", "discord.py"],
+    keywords=["lavapy", "lavalink", "nextocrd"],
     python_requires=">=3.8",
     install_requires=requirements,
     include_package_data=True,

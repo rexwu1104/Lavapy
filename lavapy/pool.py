@@ -36,8 +36,8 @@ from .stats import Stats
 from .websocket import Websocket
 
 if TYPE_CHECKING:
-    import discord.ext
-    from discord import VoiceRegion
+    import nextcord.ext
+    from nextcord import VoiceRegion
     from .ext.spotify.client import SpotifyClient
     from .player import Player
     from .tracks import MultiTrack, Playable, Track
@@ -60,14 +60,14 @@ class NodePool:
         return cls._nodes
 
     @classmethod
-    async def createNode(cls, *, client: Union[discord.Client, discord.AutoShardedClient, discord.ext.commands.Bot, discord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[VoiceRegion] = None, secure: bool = False, heartbeat: int = 60, spotifyClient: Optional[SpotifyClient] = None, identifier: Optional[str] = None) -> Node:
+    async def createNode(cls, *, client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[VoiceRegion] = None, secure: bool = False, heartbeat: int = 60, spotifyClient: Optional[SpotifyClient] = None, identifier: Optional[str] = None) -> Node:
         """|coro|
 
         Creates a Lavapy :class:`Node` object and stores it for later use.
 
         Parameters
         ----------
-        client: Union[:class:`discord.Client`, :class:`discord.AutoShardedClient`, :class:`discord.ext.commands.Bot`, :class:`discord.ext.commands.AutoShardedBot`]
+        client: Union[:class:`nextcord.Client`, :class:`nextcord.AutoShardedClient`, :class:`nextcord.ext.commands.Bot`, :class:`nextcord.ext.commands.AutoShardedBot`]
             The client or bot object to assign to this node.
         host: str
             The IP address of the Lavalink server.
@@ -75,7 +75,7 @@ class NodePool:
             The port of the Lavalink server.
         password: str
             The password to the Lavalink server.
-        region: Optional[:class:`discord.VoiceRegion`]
+        region: Optional[:class:`nextcord.VoiceRegion`]
             The voice region to assign to this node.
         secure: bool
             Whether to connect securely to the Lavalink server or not.
@@ -228,12 +228,12 @@ class Node:
     .. warning::
         This class should not be created manually. Please use :meth:`NodePool.createNode()` instead.
     """
-    def __init__(self, client: Union[discord.Client, discord.AutoShardedClient, discord.ext.commands.Bot, discord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[discord.VoiceRegion], secure: bool, heartbeat: int, spotifyClient: Optional[SpotifyClient], identifier: str) -> None:
-        self._client: Union[discord.Client, discord.AutoShardedClient, discord.ext.commands.Bot, discord.ext.commands.AutoShardedBot] = client
+    def __init__(self, client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[nextcord.VoiceRegion], secure: bool, heartbeat: int, spotifyClient: Optional[SpotifyClient], identifier: str) -> None:
+        self._client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot] = client
         self._host: str = host
         self._port: int = port
         self._password: str = password
-        self._region: Optional[discord.VoiceRegion] = region
+        self._region: Optional[nextcord.VoiceRegion] = region
         self._secure: bool = secure
         self._heartbeat: int = heartbeat
         self._spotifyClient: Optional[SpotifyClient] = spotifyClient
@@ -249,7 +249,7 @@ class Node:
         return f"<Lavapy Node (Domain={self.host}:{self.port}) (Identifier={self.identifier}) (Region={self.region}) (Players={len(self.players)})>"
 
     @property
-    def client(self) -> Union[discord.Client, discord.AutoShardedClient, discord.ext.commands.Bot, discord.ext.commands.AutoShardedBot]:
+    def client(self) -> Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot]:
         """Returns the client or bot object assigned to this node."""
         return self._client
 
@@ -269,7 +269,7 @@ class Node:
         return self._password
 
     @property
-    def region(self) -> Optional[discord.VoiceRegion]:
+    def region(self) -> Optional[nextcord.VoiceRegion]:
         """Returns the voice region assigned to this node."""
         return self._region
 
