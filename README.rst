@@ -28,10 +28,10 @@ To install Lavapy, use one of the commands below:
 .. code:: sh
 
     # Windows
-    py -3.8 -m pip install -U lavapy
+    py -3.8 -m pip install -U nextlava
 
     # Linux/macOS
-    python3.8 -m pip install -U lavapy
+    python3.8 -m pip install -U nextlava
 
 Then you need to `setup <https://github.com/freyacodes/Lavalink#server-configuration>`_ the Lavalink server. For more details visit the faq.
 
