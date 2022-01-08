@@ -35,7 +35,8 @@ To install Lavapy, use one of the commands below:
 
 Then you need to `setup <https://github.com/freyacodes/Lavalink#server-configuration>`_ the Lavalink server. For more details visit the faq.
 
-Now all of that is done, you can start using Lavapy.
+Now all of that is done, you can start using Lavapy (nextcord version).
+Don't need to uninstall discord.py.
 
 Usage
 -----
