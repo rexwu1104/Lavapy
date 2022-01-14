@@ -105,9 +105,9 @@ class Music(commands.Cog):
         query = " ".join(query)
         # Find out what track type it is and then search
         if "spotify.com" in query:
-            query, type = spotify.decodeSpotifyQuery(query)
+            type = spotify.decodeSpotifyQuery(query)
         else:
-            query, type = lavapy.decodeQuery(query)
+            type = lavapy.decodeQuery(query)
         result = await type.search(query, partial=True)
         # Make sure result is not none
         if result is None:
