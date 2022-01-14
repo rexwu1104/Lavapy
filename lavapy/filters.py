@@ -121,10 +121,10 @@ class Equalizer(LavapyFilter):
         Equalizer
             A custom equalizer object.
         """
-				if not (0 <= len(levels) <= 14):
-					  raise ValueError("There should be between 0 and 14 bands.")
-				if not all([-0.25 <= val[1] <= 1 for val in levels]):
-					  raise ValueError("Each gain should be between -0.25 and 1 bands.")
+        if not (0 <= len(levels) <= 14):
+            raise ValueError("There should be between 0 and 14 bands.")
+        if not all([-0.25 <= val[1] <= 1 for val in levels]):
+            raise ValueError("Each gain should be between -0.25 and 1 bands.")
         return cls(levels, name)
 
     @classmethod
