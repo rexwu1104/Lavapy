@@ -3,7 +3,7 @@ import re
 from setuptools import setup
 
 with open("lavapy/__init__.py") as init:
-    version = re.search(r'__version__ = "([\'0-9\'].[\'0-9\'].[\'0-9\'])"', init.read()).group(1)
+    version = re.search(r'__version__ = "([\'0-9\'].[\'0-9\'].[\'0-9\'](?:[ba][\'0-9\'])*)"', init.read()).group(1)
 
 with open("README.rst") as rdme:
     readme = rdme.read()
