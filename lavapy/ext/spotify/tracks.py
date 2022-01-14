@@ -97,7 +97,7 @@ async def spotifyGetDetails(cls: Type[SpotifyBase], query: str, node: Node) -> U
     # noinspection PyUnboundLocalVariable
     async with node.spotifyClient.session.get(url, headers=node.spotifyClient.authHeaders) as response:
         data = await response.json()
-    trackArr: List[Dict[str, Any]] = data["items"]
+    trackArr: List[Dict[str, Any]] = data["items"]; print(trackArr)
     nextUrl = data["next"]
     while nextUrl:
         async with node.spotifyClient.session.get(nextUrl, headers=node.spotifyClient.authHeaders) as response:

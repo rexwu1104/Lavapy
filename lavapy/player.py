@@ -72,7 +72,7 @@ class Player(nextcord.VoiceProtocol):
         self.channel: nextcord.VoiceChannel = channel
         self._node: Optional[Node] = NodePool.balanced()
         self._track: Optional[Track] = None
-        self._volume: int = 100
+        self._volume: float = 1.0
         self._filters: Dict[str, LavapyFilter] = {}
         self._queue: Queue = Queue(self)
         self._voiceState: Dict[str, Any] = {}
@@ -101,7 +101,7 @@ class Player(nextcord.VoiceProtocol):
         return self._track
 
     @property
-    def volume(self) -> int:
+    def volume(self) -> float:
         """Returns the current volume."""
         return self._volume
 
@@ -291,7 +291,7 @@ class Player(nextcord.VoiceProtocol):
         self.cleanup()
         logger.info(f"Disconnected from voice channel {self.channel.id}")
 
-    async def play(self, track: Union[Track, PartialResource, MultiTrack], startTime: int = 0, endTime: int = 0, volume: int = 100, replace: bool = True, pause: bool = False) -> Optional[Track]:
+    async def play(self, track: Union[Track, PartialResource, MultiTrack], startTime: int = 0, endTime: int = 0, volume: float = 1, replace: bool = True, pause: bool = False) -> Optional[Track]:
         """|coro|
 
         Plays a given resource. If this resource is a :class:`Track`, it is played normally. However, if it is a
@@ -308,7 +308,7 @@ class Player(nextcord.VoiceProtocol):
         endTime: int
             The position in milliseconds to end at. By default, this is the end.
         volume: int
-            The volume at which the player should play the track at.
+            The volume at which the player should play the track at. This should be a value between 0 and 5.
         replace: bool
             A bool stating if the current track should be replaced or not.
         pause: bool
@@ -329,6 +329,8 @@ class Player(nextcord.VoiceProtocol):
             if isinstance(track, list):
                 track = track[0]
             track = self._multitrackCheck(track)
+		if not (0 <= volume <= 5):
+            raise ValueError("Volume must be a value between 0 and 5.")
         newTrack = {
             "op": "play",
             "guildId": str(self.guild.id),
@@ -431,9 +433,11 @@ class Player(nextcord.VoiceProtocol):
         Parameters
         ----------
         volume: int
-            The new volume.
+            The new volume. This should be a value between 0 and 5 where 1 is 100%.
         """
-        self._volume = max(min(volume, 1000), 0)
+        if not (0 <= volume <= 5):
+            raise ValueError("Volume must be a value between 0 and 5.")
+		self._volume = max(min(volume, 5), 0)
         volume = {
             "op": "volume",
             "guildId": str(self.guild.id),

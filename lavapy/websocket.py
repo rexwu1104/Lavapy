@@ -95,7 +95,7 @@ class Websocket:
         Player
             A Lavapy player object.
         """
-        return [player for player in self.node.players if player.guild.id == guildID][0]
+        return [] or [player for player in self.node.players if player.guild.id == guildID][0]
 
     async def connect(self) -> None:
         """|coro|

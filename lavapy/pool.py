@@ -60,7 +60,7 @@ class NodePool:
         return cls._nodes
 
     @classmethod
-    async def createNode(cls, *, client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[VoiceRegion] = None, secure: bool = False, heartbeat: int = 60, spotifyClient: Optional[SpotifyClient] = None, identifier: Optional[str] = None) -> Node:
+    async def createNode(cls, *, client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[VoiceRegion] = None, secure: bool = False, heartbeat: int = 60, spotifyClient: Optional[SpotifyClient] = None, identifier: Optional[str] = None, ssl: Optional[bool] = None) -> Node:
         """|coro|
 
         Creates a Lavapy :class:`Node` object and stores it for later use.
@@ -85,6 +85,8 @@ class NodePool:
             A Lavapy Spotify client for interacting with Spotify.
         identifier: Optional[str]
             The unique identifier for this node. If not supplied, it will be generated for you.
+		ssl: Optional[bool]
+			SSL validation mode. None for default SSL check, False for skip SSL certificate validation.
 
         Raises
         ------
@@ -102,7 +104,7 @@ class NodePool:
         if identifier in cls._nodes:
             raise NodeOccupied(f"A node with the identifier <{identifier}> already exists.")
 
-        node = Node(client, host, port, password, region, secure, heartbeat, spotifyClient, identifier)
+        node = Node(client, host, port, password, region, secure, heartbeat, spotifyClient, identifier, ssl)
         cls._nodes[identifier] = node
         await node.connect()
         await node._initialiseExtensions()
@@ -228,7 +230,7 @@ class Node:
     .. warning::
         This class should not be created manually. Please use :meth:`NodePool.createNode()` instead.
     """
-    def __init__(self, client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[nextcord.VoiceRegion], secure: bool, heartbeat: int, spotifyClient: Optional[SpotifyClient], identifier: str) -> None:
+    def __init__(self, client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot], host: str, port: int, password: str, region: Optional[nextcord.VoiceRegion], secure: bool, heartbeat: int, spotifyClient: Optional[SpotifyClient], identifier: str, ssl: bool) -> None:
         self._client: Union[nextcord.Client, nextcord.AutoShardedClient, nextcord.ext.commands.Bot, nextcord.ext.commands.AutoShardedBot] = client
         self._host: str = host
         self._port: int = port
@@ -244,6 +246,7 @@ class Node:
         self._websocket: Optional[Websocket] = None
         self._websocketUri: str = f"{'wss' if self._secure else 'ws'}://{self.host}:{self.port}"
         self._restUri: str = f"{'https' if self._secure else 'http'}://{self.host}:{self.port}"
+		self._ssl: bool = ssl
 
     def __repr__(self) -> str:
         return f"<Lavapy Node (Domain={self.host}:{self.port}) (Identifier={self.identifier}) (Region={self.region}) (Players={len(self.players)})>"
@@ -325,6 +328,11 @@ class Node:
             return 0.0
         return self.stats.penalty.total
 
+	@property
+	def ssl(self):
+		"""Returns the SSL validation mode."""
+		return self._ssl
+
     async def _initialiseExtensions(self) -> None:
         """|coro|
 
@@ -391,7 +399,7 @@ class Node:
         headers = {
             "Authorization": self.password
         }
-        async with await self.session.get(f"{self.restUri}/{endpoint}", headers=headers, params=params) as req:
+        async with await self.session.get(f"{self.restUri}/{endpoint}", headers=headers, params=params, ssl=self._ssl) as req:
             data = await req.json()
         return data, req
 
