@@ -329,7 +329,7 @@ class Player(nextcord.VoiceProtocol):
             if isinstance(track, list):
                 track = track[0]
             track = self._multitrackCheck(track)
-		if not (0 <= volume <= 5):
+        if not (0 <= volume <= 5):
             raise ValueError("Volume must be a value between 0 and 5.")
         newTrack = {
             "op": "play",
@@ -437,7 +437,7 @@ class Player(nextcord.VoiceProtocol):
         """
         if not (0 <= volume <= 5):
             raise ValueError("Volume must be a value between 0 and 5.")
-		self._volume = max(min(volume, 5), 0)
+        self._volume = max(min(volume, 5), 0)
         volume = {
             "op": "volume",
             "guildId": str(self.guild.id),
