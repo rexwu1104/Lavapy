@@ -246,7 +246,7 @@ class Node:
         self._websocket: Optional[Websocket] = None
         self._websocketUri: str = f"{'wss' if self._secure else 'ws'}://{self.host}:{self.port}"
         self._restUri: str = f"{'https' if self._secure else 'http'}://{self.host}:{self.port}"
-		self._ssl: bool = ssl
+        self._ssl: bool = ssl
 
     def __repr__(self) -> str:
         return f"<Lavapy Node (Domain={self.host}:{self.port}) (Identifier={self.identifier}) (Region={self.region}) (Players={len(self.players)})>"
@@ -328,10 +328,10 @@ class Node:
             return 0.0
         return self.stats.penalty.total
 
-	@property
-	def ssl(self):
-		"""Returns the SSL validation mode."""
-		return self._ssl
+    @property
+    def ssl(self):
+        """Returns the SSL validation mode."""
+        return self._ssl
 
     async def _initialiseExtensions(self) -> None:
         """|coro|
